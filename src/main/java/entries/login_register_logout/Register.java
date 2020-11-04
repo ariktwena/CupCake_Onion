@@ -82,7 +82,7 @@ public class Register extends BaseServlet {
     private void redirectWithMessage(String checkoutProcess, String messageSignUp, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         if(checkoutProcess.equals("true")){
             request.setAttribute("messageSignUp", messageSignUp);
-            response.sendRedirect(request.getContextPath() + "/LoginRegisterPage??user_role=&messageSignUp=" + messageSignUp);
+            response.sendRedirect(request.getContextPath() + "/LoginRegisterPage?user_role=&messageSignUp=" + messageSignUp);
         } else {
             request.setAttribute("messageSignUp", messageSignUp);
             response.sendRedirect(request.getContextPath() + "/Register?messageSignUp=" + messageSignUp);

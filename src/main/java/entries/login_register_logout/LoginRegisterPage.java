@@ -17,19 +17,18 @@ public class LoginRegisterPage extends BaseServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
+        if(request.getParameter("messageSignIn") != null){
+            String messageSignIn = request.getParameter("messageSignIn");
+            request.setAttribute("messageSignIn", messageSignIn);
+        }
+        if(request.getParameter("messageSignUp") != null){
+            String messageSignUp = request.getParameter("messageSignUp");
+            request.setAttribute("messageSignUp", messageSignUp);
+        }
+
         String user_role = request.getParameter("user_role");
 
         if(user_role.equals("")){
-
-            if(request.getParameter("messageSignIn") != null){
-                String messageSignIn = request.getParameter("messageSignIn");
-                request.setAttribute("messageSignIn", messageSignIn);
-            }
-            if(request.getParameter("messageSignUp") != null){
-                String messageSignUp = request.getParameter("messageSignUp");
-                request.setAttribute("messageSignUp", messageSignUp);
-            }
-
             String checkoutProcess = "true";
             request.setAttribute("checkoutProcess", checkoutProcess);
             render("Login/Register Page", "/WEB-INF/pages/login_register.jsp", request, response);
