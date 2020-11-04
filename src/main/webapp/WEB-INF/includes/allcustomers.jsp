@@ -63,13 +63,13 @@
                 <td><fmt:formatNumber type = "number" minFractionDigits = "2" value = "${price_format}" />$</td>
                 <td><a class="btn btn-success btn-sm" href="${pageContext.request.contextPath}/ShowCustomerOrderHistory?user_id=${user.id}">View</a></td>
                 <td><a class="btn btn-primary btn-sm" href="${pageContext.request.contextPath}/EditCustomer?user_id=${user.id}">Edit</a></td>
-                <td>
-                    <form action="DeleteCustomer" method="post">
-                        <input type="hidden" name="user_id" value="${user.id}">
-                        <button class="btn btn-danger btn-sm" type="submit">Delete</button>
-                    </form>
-<%--                    <a type="button" class="btn btn-danger btn-sm" href="${pageContext.request.contextPath}/DeleteCustomer?target=allCustomers&user_id=${user.id}">Delete</a>--%>
-                </td>
+<%--                <td>--%>
+<%--                    <form action="DeleteCustomer" method="post">--%>
+<%--                        <input type="hidden" name="user_id" value="${user.id}">--%>
+<%--                        <button class="btn btn-danger btn-sm" type="submit">Delete</button>--%>
+<%--                    </form>--%>
+<%--&lt;%&ndash;                    <a type="button" class="btn btn-danger btn-sm" href="${pageContext.request.contextPath}/DeleteCustomer?target=allCustomers&user_id=${user.id}">Delete</a>&ndash;%&gt;--%>
+<%--                </td>--%>
             </tr>
         </c:forEach>
         </tbody>
