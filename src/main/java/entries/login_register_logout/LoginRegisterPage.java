@@ -17,9 +17,9 @@ public class LoginRegisterPage extends BaseServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-        User user = (User) request.getAttribute("user");
+        String user_role = request.getParameter("user_role");
 
-        if(user == null){
+        if(user_role.equals("")){
 
             if(request.getParameter("messageSignIn") != null){
                 String messageSignIn = request.getParameter("messageSignIn");

@@ -46,7 +46,7 @@ public class Register extends BaseServlet {
             //Redirect by user_role and get session data
             if(user.getUserRole().equals("admin")){
                 if(checkoutProcess.equals("true")){
-                    response.sendRedirect(request.getContextPath() + "/CheckoutPage");
+                    response.sendRedirect(request.getContextPath() + "/CheckoutPage?user_role=admin");
 
                 } else {
                     response.sendRedirect(request.getContextPath() + "/AdminPage");
@@ -54,7 +54,7 @@ public class Register extends BaseServlet {
 
             } else if (user.getUserRole().equals("customer")){
                 if(checkoutProcess.equals("true")){
-                    response.sendRedirect(request.getContextPath() + "/CheckoutPage");
+                    response.sendRedirect(request.getContextPath() + "/CheckoutPage?user_role=customer");
 
                 } else {
                     response.sendRedirect(request.getContextPath() + "/CustomerPage");
@@ -82,7 +82,7 @@ public class Register extends BaseServlet {
     private void redirectWithMessage(String checkoutProcess, String messageSignUp, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         if(checkoutProcess.equals("true")){
             request.setAttribute("messageSignUp", messageSignUp);
-            response.sendRedirect(request.getContextPath() + "/LoginRegisterPage?messageSignUp=" + messageSignUp);
+            response.sendRedirect(request.getContextPath() + "/LoginRegisterPage??user_role=&messageSignUp=" + messageSignUp);
         } else {
             request.setAttribute("messageSignUp", messageSignUp);
             response.sendRedirect(request.getContextPath() + "/Register?messageSignUp=" + messageSignUp);

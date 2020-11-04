@@ -90,7 +90,7 @@
                 <a class="btn btn-primary" href="${pageContext.request.contextPath}/ProductView">Order More</a>
             </div>
             <div class="col-sm-12 col-md-2" style="">
-                <a class="btn btn-primary" href="${pageContext.request.contextPath}/LoginRegisterPage?user_id=${sessionScope.user.id}">Checkout</a>
+                <a class="btn btn-primary" href="${pageContext.request.contextPath}/LoginRegisterPage?user_role=${sessionScope.user.userRole}">Checkout</a>
             </div>
             <div class="col-sm-12 col-md-4" style=""></div>
         </div>

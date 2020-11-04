@@ -49,7 +49,7 @@ public class Login extends BaseServlet {
             //Redirect by user_role and get session data
             if(user.getUserRole().equals("admin")){
                 if(checkoutProcess.equals("true")){
-                    response.sendRedirect(request.getContextPath() + "/CheckoutPage");
+                    response.sendRedirect(request.getContextPath() + "/CheckoutPage?user_role=admin");
 
                 } else {
                     response.sendRedirect(request.getContextPath() + "/AdminPage");
@@ -57,7 +57,7 @@ public class Login extends BaseServlet {
 
             } else if (user.getUserRole().equals("customer")){
                 if(checkoutProcess.equals("true")){
-                    response.sendRedirect(request.getContextPath() + "/CheckoutPage");
+                    response.sendRedirect(request.getContextPath() + "/CheckoutPage?user_role=customer");
 
                 } else {
                     response.sendRedirect(request.getContextPath() + "/CustomerPage");
@@ -80,7 +80,7 @@ public class Login extends BaseServlet {
     private void redirectWithMessage(String checkoutProcess, String messageSignIn, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         if(checkoutProcess.equals("true")){
             request.setAttribute("messageSignIn", messageSignIn);
-            response.sendRedirect(request.getContextPath() + "/LoginRegisterPage?messageSignIn=" + messageSignIn);
+            response.sendRedirect(request.getContextPath() + "/LoginRegisterPage?user_role=&messageSignIn=" + messageSignIn);
         } else {
             request.setAttribute("messageSignIn", messageSignIn);
             response.sendRedirect(request.getContextPath() + "/Login?messageSignIn=" + messageSignIn);
