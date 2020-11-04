@@ -19,6 +19,12 @@ public class Register extends BaseServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
+
+        if(req.getParameter("messageSignUp") != null){
+            String messageSignUp = req.getParameter("messageSignUp");
+            req.setAttribute("messageSignUp", messageSignUp);
+        }
+
         render("The CupCake Shop", "/WEB-INF/pages/register.jsp", req, resp);
     }
 
@@ -76,10 +82,10 @@ public class Register extends BaseServlet {
     private void redirectWithMessage(String checkoutProcess, String messageSignUp, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         if(checkoutProcess.equals("true")){
             request.setAttribute("messageSignUp", messageSignUp);
-            response.sendRedirect(request.getContextPath() + "/LoginRegisterPage");
+            response.sendRedirect(request.getContextPath() + "/LoginRegisterPage?messageSignUp=" + messageSignUp);
         } else {
             request.setAttribute("messageSignUp", messageSignUp);
-            response.sendRedirect(request.getContextPath() + "/Register");
+            response.sendRedirect(request.getContextPath() + "/Register?messageSignUp=" + messageSignUp);
         }
     }
 

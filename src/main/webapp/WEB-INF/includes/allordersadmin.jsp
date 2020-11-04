@@ -51,7 +51,7 @@
             <th scope="col">Ship</th>
             <th scope="col">Status</th>
             <th scope="col">View</th>
-            <th scope="col">Delete</th>
+<%--            <th scope="col">Delete</th>--%>
         </tr>
         </thead>
         <tbody>
@@ -69,12 +69,12 @@
                 <td>${order.order_ship}</td>
                 <td>${order.order_status}</td>
                 <td><a class="btn btn-primary btn-sm" href="${pageContext.request.contextPath}/ViewOrder?role=admin&order_id=${order.order_id}">View</a></td>
-                <td>
-                    <form action="DeleteOrder" method="post">
-                        <input type="hidden" name="order_id" value="${order.order_id}">
-                        <button class="btn btn-danger btn-sm" type="submit">Delete</button>
-                    </form>
-                </td>
+<%--                <td>--%>
+<%--                    <form action="${pageContext.request.contextPath}/DeleteOrder" method="post">--%>
+<%--                        <input type="hidden" name="order_id" value="${order.order_id}">--%>
+<%--                        <button class="btn btn-danger btn-sm" type="submit">Delete</button>--%>
+<%--                    </form>--%>
+<%--                </td>--%>
             </tr>
         </c:forEach>
         </tbody>

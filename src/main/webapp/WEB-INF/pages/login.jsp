@@ -64,13 +64,13 @@
                         </svg>
                     </button>
                 </form>
-                <!--            <div>-->
-                <!--                <c:if test ="${requestScope.messageSignIn != null}">-->
-                <!--                    <div class="alert alert-danger" style="padding-bottom: inherit;">-->
-                <!--                        <p>${requestScope.messageSignIn}</p>-->
-                <!--                    </div>-->
-                <!--                </c:if>-->
-                <!--            </div>-->
+                <div>
+                <c:if test ="${requestScope.messageSignIn != null}">
+                    <div class="alert alert-danger" style="padding-bottom: inherit;">
+                        <p>${requestScope.messageSignIn}</p>
+                    </div>
+                </c:if>
+                </div>
             </div>
             <a href="Shop">
                 <svg width="1em" height="1em" viewBox="0 0 16 16" style="margin-top: -3px" class="bi bi-arrow-bar-left" fill="currentColor" xmlns="http://www.w3.org/2000/svg">

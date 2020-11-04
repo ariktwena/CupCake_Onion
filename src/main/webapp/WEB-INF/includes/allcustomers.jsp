@@ -49,7 +49,7 @@
             <th scope="col">Credit</th>
             <th scope="col">Orders</th>
             <th scope="col">Edit</th>
-            <th scope="col">Delete</th>
+<%--            <th scope="col">Delete</th>--%>
         </tr>
         </thead>
         <tbody>

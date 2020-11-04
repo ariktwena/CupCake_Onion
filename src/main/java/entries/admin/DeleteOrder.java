@@ -25,6 +25,7 @@ public class DeleteOrder extends BaseServlet {
 
         int order_id = Integer.parseInt(request.getParameter("order_id"));
 
+        System.out.println(order_id);
 
         if(order_id == 0){
             errorMessage = "Order was not deleted..";

@@ -9,6 +9,7 @@ import domain.topping.NoToppingListInDB;
 import domain.topping.NoToppingWithThatId;
 import domain.user.InvalidPassword;
 import domain.user.UserExists;
+import domain.user.UserNotFound;
 import infrastructure.DBexception;
 import infrastructure.Database;
 import infrastructure.LoginSampleException;
@@ -130,6 +131,8 @@ public class IntergrationTest {
             e.printStackTrace();
         } catch (InvalidPassword invalidPassword) {
             invalidPassword.printStackTrace();
+        } catch (UserNotFound e){
+            e.getMessage();
         }
 
         //Invalid login
@@ -140,6 +143,8 @@ public class IntergrationTest {
         } catch (InvalidPassword invalidPassword) {
             String exceptionMessage = "" + invalidPassword.getMessage();
             assertTrue(exceptionMessage.contains(exceptionMessage));
+        } catch (UserNotFound e){
+            e.getMessage();
         }
     }
 

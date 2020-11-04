@@ -19,6 +19,12 @@ public class Login extends BaseServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
+
+        if(req.getParameter("messageSignIn") != null){
+            String messageSignIn = req.getParameter("messageSignIn");
+            req.setAttribute("messageSignIn", messageSignIn);
+        }
+
         render("The CupCake Shop", "/WEB-INF/pages/login.jsp", req, resp);
     }
 
@@ -74,10 +80,10 @@ public class Login extends BaseServlet {
     private void redirectWithMessage(String checkoutProcess, String messageSignIn, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         if(checkoutProcess.equals("true")){
             request.setAttribute("messageSignIn", messageSignIn);
-            response.sendRedirect(request.getContextPath() + "/LoginRegisterPage");
+            response.sendRedirect(request.getContextPath() + "/LoginRegisterPage?messageSignIn=" + messageSignIn);
         } else {
-            request.setAttribute("messageSignUp", messageSignIn);
-            response.sendRedirect(request.getContextPath() + "/Login");
+            request.setAttribute("messageSignIn", messageSignIn);
+            response.sendRedirect(request.getContextPath() + "/Login?messageSignIn=" + messageSignIn);
         }
     }
 
