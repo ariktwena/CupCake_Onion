@@ -34,6 +34,7 @@ product_page.jsp --> index.jsp
 product_page.jsp --> show_cart.jsp
 
 show_cart.jsp --> login_register.jsp:If not logged in
+login_register.jsp --> login_register.jsp:error
 
 
 'index.jsp --> login.jsp: log på
@@ -52,29 +53,35 @@ state LoggedOn {
   show_cart.jsp --> checkout.jsp:If logged in
 
   checkout.jsp --> thank_you_for_your_order.jsp:Choose credit & shipping
+  thank_you_for_your_order.jsp --> profilepage.jsp
+
+
+    state customerArea{
+        profilepage.jsp ---> view_Profile.jsp
+        profilepage.jsp ---> allorderscustomer.jsp
+        allorderscustomer.jsp --> view_order.jsp
+    }
+
+    state adminArea{
+    '    state createUser.jsp
+
+        adminpage.jsp -----> addCustomer.jsp
+        adminpage.jsp -----> allCustomers.jsp
+        adminpage.jsp -----> allOrders.jsp
+
+        allCustomers.jsp ---> viewCustomer.jsp
+        allCustomers.jsp ---> editCustomer.jsp
+        allCustomers.jsp ---> deleteCustomer.jsp
+
+        viewCustomer.jsp --> allordersfromcustomeradminpage.jsp
+
+        allordersfromcustomeradminpage.jsp --> viewOrder.jsp
+        allOrders.jsp --> viewOrder.jsp
+    }
 
 }
 
-state customerArea{
-    profilepage.jsp ---> view_Profile.jsp
-    profilepage.jsp ---> allorderscustomer.jsp
-    allorderscustomer.jsp --> view_order.jsp
-}
 
-state adminArea{
-'    state createUser.jsp
 
-    adminpage.jsp -----> addCustomer.jsp
-    adminpage.jsp -----> allCustomers.jsp
-    adminpage.jsp -----> allOrders.jsp
 
-    allCustomers.jsp ---> viewCustomer.jsp
-    allCustomers.jsp ---> editCustomer.jsp
-    allCustomers.jsp ---> deleteCustomer.jsp
-
-    viewCustomer.jsp --> allordersfromcustomeradminpage.jsp
-
-    allordersfromcustomeradminpage.jsp --> viewOrder.jsp
-    allOrders.jsp --> viewOrder.jsp
-}
 @enduml

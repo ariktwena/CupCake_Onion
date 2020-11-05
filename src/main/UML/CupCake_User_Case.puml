@@ -10,6 +10,8 @@ rectangle webshop {
     customer -- (Edit cart)
     customer -- (View cart)
     customer -- (Buy product)
+    customer -- (Login)
+    customer -- (Logout)
     (Buy product) -- (Choose payment)
     (Buy product) -- (Choose delivery)
     (Buy product) -- (Choose extra info)
@@ -24,6 +26,8 @@ rectangle webshop {
     admin -- (View orders)
     admin -- (Edit order)
     admin -- (Delete order)
+    admin -- (Login)
+    admin -- (Logout)
 }
 
 @enduml
