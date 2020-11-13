@@ -216,13 +216,13 @@ public class IntergrationTest {
             Cart_item cart_item2 = new Cart_item(item, topping, bottom, 2);
 
             //Add to shopping cart
-            api.addToShoppingCart(cart_item1);
-            api.addToShoppingCart(cart_item2);
             ArrayList<Cart_item> shoppingCart = api.getShoppingCart();
+            shoppingCart = api.addToShoppingCart(cart_item1, shoppingCart);
+            shoppingCart = api.addToShoppingCart(cart_item2, shoppingCart);
             assertEquals(1, shoppingCart.size());
             assertEquals(3, shoppingCart.get(0).getQty());
             assertEquals(39.00, shoppingCart.get(0).getSubTotal());
-            double cartTotal = api.getCartTotalAmount();
+            double cartTotal = api.getCartTotalAmount(shoppingCart);
             assertEquals(39.00, cartTotal);
 
         } catch (NoItemWithThatId noItemWithThatId) {
@@ -254,15 +254,15 @@ public class IntergrationTest {
 
 
             //Add to shopping cart
-            api.addToShoppingCart(cart_item);
-            api.addToShoppingCart(cart_item1);
             ArrayList<Cart_item> shoppingCart = api.getShoppingCart();
+            shoppingCart = api.addToShoppingCart(cart_item, shoppingCart);
+            shoppingCart = api.addToShoppingCart(cart_item1, shoppingCart);
             assertEquals(2, shoppingCart.size());
             assertEquals(1, shoppingCart.get(0).getQty());
             assertEquals(2, shoppingCart.get(1).getQty());
             assertEquals(13.00, shoppingCart.get(0).getSubTotal());
             assertEquals(26.00, shoppingCart.get(1).getSubTotal());
-            double cartTotal = api.getCartTotalAmount();
+            double cartTotal = api.getCartTotalAmount(shoppingCart);
             assertEquals(39.00, cartTotal);
 
         } catch (NoItemWithThatId noItemWithThatId) {
@@ -308,8 +308,8 @@ public class IntergrationTest {
             assertEquals(26.00, cart_item.getSubTotal());
 
             //Add to shopping cart
-            api.addToShoppingCart(cart_item);
             ArrayList<Cart_item> shoppingCart = api.getShoppingCart();
+            shoppingCart = api.addToShoppingCart(cart_item, shoppingCart);
 
             //Create Cart
             Cart cart = new Cart(shoppingCart);
@@ -319,7 +319,7 @@ public class IntergrationTest {
             shipping = api.createShipping(shipping);
 
             //Cart total
-            double cartTotal = api.getCartTotalAmount();
+            double cartTotal = api.getCartTotalAmount(shoppingCart);
             assertEquals(26.00, cartTotal);
 
             //Create order
@@ -331,9 +331,8 @@ public class IntergrationTest {
             api.creatOrderDetails(order);
 
             //Reset shopping cart
-            ArrayList<Cart_item> shoppingCartReset = new ArrayList<>();
-            api.resetCart(shoppingCartReset);
-            assertEquals(0, api.getShoppingCart().size());
+            shoppingCart = new ArrayList<>();
+            assertEquals(0, shoppingCart.size());
 
             //Get all orders from DB
             ArrayList<Order> allOrdersFromDB = api.getAllOrders();

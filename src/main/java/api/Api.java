@@ -68,7 +68,7 @@ public class Api {
      * @throws UserExists User is already registered in the DB
      * @throws InvalidPassword Passwords do not match
      */
-    public User createUser(String user_email, String password1, String password2) throws LoginSampleException, UserExists, InvalidPassword {
+    public synchronized User createUser(String user_email, String password1, String password2) throws LoginSampleException, UserExists, InvalidPassword {
         //Generate salt
         byte[] salt = User.generateSalt();
         //Generate secret
@@ -99,7 +99,7 @@ public class Api {
      * @throws LoginSampleException
      * @throws InvalidPassword
      */
-    public User login(String email, String password) throws LoginSampleException, InvalidPassword, UserNotFound {
+    public synchronized User login(String email, String password) throws LoginSampleException, InvalidPassword, UserNotFound {
 
         //Get user from the DB with a specific name
         User user = userServices.login(email);
@@ -108,11 +108,11 @@ public class Api {
         if(user.getUserEmail() == null){
             throw new UserNotFound();
         }
-
         //Validate the DB password with the provided one
         else if (!user.isPasswordCorrect(password)) {
             throw new InvalidPassword();
-        } else  {
+        }
+        else  {
             //Return user if password is validated
             return user;
         }
@@ -124,7 +124,7 @@ public class Api {
      * @throws DBexception
      * @throws DBexception
      */
-    public ArrayList<User> getAllUsersFromDB() throws DBexception, DBexception {
+    public synchronized ArrayList<User> getAllUsersFromDB() throws DBexception, DBexception {
         ArrayList<User> allUsersFromDB = userRepository.getAllUsersFromDB();
         return allUsersFromDB;
     }
@@ -139,7 +139,7 @@ public class Api {
      * @throws LoginSampleException
      * @throws UserExists
      */
-    public User createUserFromAdminPage(String user_email, String password, String user_role, double user_credit) throws LoginSampleException, UserExists {
+    public synchronized User createUserFromAdminPage(String user_email, String password, String user_role, double user_credit) throws LoginSampleException, UserExists {
 
         //Generate salt
         byte[] salt = User.generateSalt();
@@ -168,7 +168,7 @@ public class Api {
      * @return
      * @throws DBexception
      */
-    public User getUserById(int user_id) throws DBexception {
+    public synchronized User getUserById(int user_id) throws DBexception {
         User user = userRepository.getUserById(user_id);
         return user;
     }
@@ -180,7 +180,7 @@ public class Api {
      * @param user_credit
      * @throws LoginSampleException
      */
-    public void updateUserById(int user_id, String user_role, double user_credit) throws LoginSampleException {
+    public synchronized void updateUserById(int user_id, String user_role, double user_credit) throws LoginSampleException {
         userServices.updateUserById(user_id, user_role, user_credit);
     }
 
@@ -189,7 +189,7 @@ public class Api {
      * @param user_id
      * @throws LoginSampleException
      */
-    public void deleteUserById(int user_id) throws LoginSampleException {
+    public synchronized void deleteUserById(int user_id) throws LoginSampleException {
         userServices.deleteUserById(user_id);
     }
 
@@ -198,7 +198,7 @@ public class Api {
      * @param user_id
      * @throws LoginSampleException
      */
-    public void changeUserRoleToCustomer(int user_id) throws LoginSampleException {
+    public synchronized void changeUserRoleToCustomer(int user_id) throws LoginSampleException {
         userServices.changeUserRoleToCustomer(user_id);
     }
 
@@ -207,7 +207,7 @@ public class Api {
      * @param user_id
      * @throws LoginSampleException
      */
-    public void changeUserRoleToAdmin(int user_id) throws LoginSampleException {
+    public synchronized void changeUserRoleToAdmin(int user_id) throws LoginSampleException {
         userServices.changeUserRoleToAdmin(user_id);
     }
 
@@ -216,7 +216,7 @@ public class Api {
      * @return
      * @throws DBexception
      */
-    public ArrayList<Item> getAllItemsFromDB() throws DBexception {
+    public synchronized ArrayList<Item> getAllItemsFromDB() throws DBexception {
         return itemRepository.getAllItemsFromDB();
     }
 
@@ -227,7 +227,7 @@ public class Api {
      * @throws DBexception
      * @throws NoItemWithThatId
      */
-    public Item getItemById(int item_id) throws DBexception, NoItemWithThatId {
+    public synchronized Item getItemById(int item_id) throws DBexception, NoItemWithThatId {
         if(itemRepository.getItemById(item_id) == null) {
             throw new NoItemWithThatId();
         } else {
@@ -241,7 +241,7 @@ public class Api {
      * @throws DBexception
      * @throws NoToppingListInDB
      */
-    public ArrayList<Topping> getAllToppingFromDB() throws DBexception, NoToppingListInDB {
+    public synchronized ArrayList<Topping> getAllToppingFromDB() throws DBexception, NoToppingListInDB {
         if(toppingRepository.getAllToppingsFromDb().size() == 0 || toppingRepository.getAllToppingsFromDb().isEmpty()) {
             throw new NoToppingListInDB();
         } else {
@@ -255,7 +255,7 @@ public class Api {
      * @throws DBexception
      * @throws NoBottomListInDB
      */
-    public ArrayList<Bottom> getAllBottomFromDB() throws DBexception, NoBottomListInDB {
+    public synchronized ArrayList<Bottom> getAllBottomFromDB() throws DBexception, NoBottomListInDB {
         if(toppingRepository.getAllToppingsFromDb().size() == 0 || toppingRepository.getAllToppingsFromDb().isEmpty()) {
             throw new NoBottomListInDB();
         } else {
@@ -270,7 +270,7 @@ public class Api {
      * @throws DBexception
      * @throws NoToppingWithThatId
      */
-    public Topping getToppingById(int topping_id) throws DBexception, NoToppingWithThatId {
+    public synchronized Topping getToppingById(int topping_id) throws DBexception, NoToppingWithThatId {
         if(toppingRepository.getToppingById(topping_id) == null) {
             throw new NoToppingWithThatId();
         } else {
@@ -285,7 +285,7 @@ public class Api {
      * @throws DBexception
      * @throws NoBottomWithThatId
      */
-    public Bottom getBottomById(int bottom_id) throws DBexception, NoBottomWithThatId {
+    public synchronized Bottom getBottomById(int bottom_id) throws DBexception, NoBottomWithThatId {
         if(bottomRepository.getBottomById(bottom_id) == null) {
             throw new NoBottomWithThatId();
         } else {
@@ -296,14 +296,16 @@ public class Api {
     /**
      * Add Cart_items to local shopping cart and evaluate if the item: exists -> increase qty, else -> new entry
      * @param cart_item
+     * @param shoppingCart
+     * @return
      */
-    public void addToShoppingCart(Cart_item cart_item) {
+    public synchronized ArrayList<Cart_item> addToShoppingCart(Cart_item cart_item, ArrayList<Cart_item> shoppingCart) {
         boolean cartItemAlreadyInTheShoppingCart = false;
 
-        ArrayList<Cart_item> listOfCartItems = cartRepository.getShoppingCart();
+//        ArrayList<Cart_item> listOfCartItems = cartRepository.getShoppingCart();
 
         //Check if cart item already exist in the shopping cart
-        for(Cart_item currentItem : listOfCartItems){
+        for(Cart_item currentItem : shoppingCart){
             //Validate if the cart item is the same
             if(currentItem.equals(cart_item)){
 //            if(currentItem.getItem().getItem_name().equals(cart_item.getItem().getItem_name())
@@ -319,18 +321,20 @@ public class Api {
         }
         //Add the cart item to the shopping cart if not the same. else jut return the modified shopping cart
         if(!cartItemAlreadyInTheShoppingCart){
-            listOfCartItems.add(cart_item);
-            cartFactory.setCart(listOfCartItems);
-        } else {
-            cartFactory.setCart(listOfCartItems);
+            shoppingCart.add(cart_item);
+//            cartFactory.setCart(listOfCartItems);
         }
+//        else {
+//            cartFactory.setCart(listOfCartItems);
+//        }
+        return shoppingCart;
     }
 
     /**
      * Get the local saved cart (ArrayList<Cart_item>)from Cart
      * @return
      */
-    public ArrayList<Cart_item> getShoppingCart() {
+    public synchronized ArrayList<Cart_item> getShoppingCart() {
         return cartRepository.getShoppingCart();
     }
 
@@ -338,15 +342,15 @@ public class Api {
      * Get teh total amount in the current session cart
      * @return
      */
-    public double getCartTotalAmount(){
-        return cartServices.getCartTotalAmount();
+    public synchronized double getCartTotalAmount(ArrayList<Cart_item> shoppingCart){
+        return cartServices.getCartTotalAmount(shoppingCart);
     }
 
     /**
      * Reset the cart with a empty or custom cart
      * @param shoppingCart
      */
-    public void resetCart(ArrayList<Cart_item> shoppingCart){
+    public synchronized void resetCart(ArrayList<Cart_item> shoppingCart){
         cartServices.resetCart(shoppingCart);
     }
 
@@ -356,7 +360,7 @@ public class Api {
      * @return
      * @throws LoginSampleException
      */
-    public Shipping createShipping(Shipping shipping) throws LoginSampleException {
+    public synchronized Shipping createShipping(Shipping shipping) throws LoginSampleException {
         return shippingFactory.createShipping(shipping);
     }
 
@@ -366,7 +370,7 @@ public class Api {
      * @return
      * @throws LoginSampleException
      */
-    public Order createOrder(Order order) throws LoginSampleException {
+    public synchronized Order createOrder(Order order) throws LoginSampleException {
         return orderFactory.createOrder(order);
     }
 
@@ -375,7 +379,7 @@ public class Api {
      * @param order
      * @throws LoginSampleException
      */
-    public void creatOrderDetails(Order order) throws LoginSampleException {
+    public synchronized void creatOrderDetails(Order order) throws LoginSampleException {
         int order_id = order.getOrder_id();
         ArrayList<Cart_item> shoppingCart = order.getCart().getListOfCartItems();
 
@@ -390,7 +394,7 @@ public class Api {
      * @param newCreditBallance
      * @throws LoginSampleException
      */
-    public void updateUserCreditBalance(int user_id, double newCreditBallance) throws LoginSampleException {
+    public synchronized void updateUserCreditBalance(int user_id, double newCreditBallance) throws LoginSampleException {
         userServices.updateUserCreditBalance(user_id, newCreditBallance);
     }
 
@@ -399,7 +403,7 @@ public class Api {
      * @return Array list of orders that are active
      * @throws DBexception
      */
-    public ArrayList<Order> getAllOrders() throws DBexception {
+    public synchronized ArrayList<Order> getAllOrders() throws DBexception {
         return orderRepository.getAllOrders();
     }
 
@@ -409,7 +413,7 @@ public class Api {
      * @return
      * @throws DBexception
      */
-    public Order getOrderById(int order_id) throws DBexception {
+    public synchronized Order getOrderById(int order_id) throws DBexception {
         return orderRepository.getOrderById(order_id);
     }
 
@@ -419,7 +423,7 @@ public class Api {
      * @return Array list of orders that are active
      * @throws DBexception
      */
-    public ArrayList<Order> getAllOrdersByUserId(int user_id) throws DBexception {
+    public synchronized ArrayList<Order> getAllOrdersByUserId(int user_id) throws DBexception {
         return orderRepository.getAllOrdersByUserId(user_id);
     }
 
@@ -428,7 +432,7 @@ public class Api {
      * @param order_id
      * @throws LoginSampleException
      */
-    public void updatedOrderToPending(int order_id) throws LoginSampleException {
+    public synchronized void updatedOrderToPending(int order_id) throws LoginSampleException {
         orderServices.updatedOrderToPending(order_id);
     }
 
@@ -437,7 +441,7 @@ public class Api {
      * @param order_id
      * @throws LoginSampleException
      */
-    public void updatedOrderToDelivered(int order_id) throws LoginSampleException {
+    public synchronized void updatedOrderToDelivered(int order_id) throws LoginSampleException {
         orderServices.updatedOrderToDelivered(order_id);
     }
 
@@ -446,7 +450,7 @@ public class Api {
      * @param order_id
      * @throws LoginSampleException
      */
-    public void deleteOrderById(int order_id) throws LoginSampleException {
+    public synchronized void deleteOrderById(int order_id) throws LoginSampleException {
         orderServices.deleteOrderById(order_id);
     }
 

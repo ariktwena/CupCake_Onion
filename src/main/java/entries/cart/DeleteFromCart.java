@@ -24,7 +24,9 @@ public class DeleteFromCart extends BaseServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String successMessage, errorMessage;
         String [] checkboxArray = req.getParameterValues("checkboxArray");
-        ArrayList<Cart_item> shoppingCart = api.getShoppingCart();
+//        ArrayList<Cart_item> shoppingCart = api.getShoppingCart();
+        HttpSession session = req.getSession();
+        ArrayList<Cart_item> shoppingCart = (ArrayList<Cart_item>) session.getAttribute("shoppingCart");
 
         if(checkboxArray.length > 0){
             for(int i = checkboxArray.length - 1 ; i >= 0 ; i--){
@@ -32,7 +34,7 @@ public class DeleteFromCart extends BaseServlet {
             }
 
             //Set shopping cart session
-            HttpSession session = req.getSession();
+//            HttpSession session = req.getSession();
             session.setAttribute("shoppingCart", shoppingCart);
 
             //Set total price in cart

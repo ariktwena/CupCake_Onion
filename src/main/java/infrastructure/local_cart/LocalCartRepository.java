@@ -18,6 +18,8 @@ public class LocalCartRepository implements CartRepository {
 
     @Override
     public ArrayList<Cart_item> getShoppingCart() {
-        return cart.getListOfCartItems();
+
+//        return cart.getListOfCartItems();
+        return new ArrayList<>();
     }
 }

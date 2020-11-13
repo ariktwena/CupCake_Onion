@@ -29,7 +29,10 @@ public class Show_Cart extends BaseServlet {
             req.setAttribute("errorMessage", errorMessage);
         }
 
-        double cartTotal = api.getCartTotalAmount();
+        HttpSession session = req.getSession();
+        ArrayList<Cart_item> shoppingCart = (ArrayList<Cart_item>) session.getAttribute("shoppingCart");
+
+        double cartTotal = api.getCartTotalAmount(shoppingCart);
         req.setAttribute("cartTotal", cartTotal);
 
         render("Shopping Cart", "/WEB-INF/pages/show_cart.jsp", req, resp);

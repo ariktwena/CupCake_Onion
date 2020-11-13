@@ -47,13 +47,17 @@ public class AddToCart extends BaseServlet {
             Topping topping = api.getToppingById(topping_id);
             Bottom bottom = api.getBottomById(bottom_id);
 
+            //Get the sopping cart session
+            HttpSession session = request.getSession();
+            ArrayList<Cart_item> shoppingCart = (ArrayList<Cart_item>) session.getAttribute("shoppingCart");
+
             //Add to shopping cart
             Cart_item cart_item = new Cart_item(item, topping, bottom, qty);
-            api.addToShoppingCart(cart_item);
+            shoppingCart = api.addToShoppingCart(cart_item, shoppingCart);
 
             //Set shopping cart session
-            HttpSession session = request.getSession();
-            ArrayList<Cart_item> shoppingCart = api.getShoppingCart();
+//            HttpSession session = request.getSession();
+//            ArrayList<Cart_item> shoppingCart = api.getShoppingCart();
             session.setAttribute("shoppingCart", shoppingCart);
 
             response.sendRedirect(request.getContextPath() + "/ItemPage?item_id=" + item_id);

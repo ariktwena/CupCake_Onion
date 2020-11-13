@@ -155,7 +155,7 @@ public class DBUserServices implements UserServices {
                 return user;
 
             } else {
-                throw new LoginSampleException( "Could not validate user" );
+                throw new LoginSampleException("User not found");
             }
         } catch ( SQLException ex ) {
             throw new LoginSampleException(ex.getMessage());

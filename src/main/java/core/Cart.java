@@ -6,7 +6,7 @@ import java.util.ArrayList;
 
 public class Cart {
 
-    private ArrayList<Cart_item> listOfCartItems;
+    private volatile ArrayList<Cart_item> listOfCartItems;
 
     public Cart() {
         this.listOfCartItems = new ArrayList<>();

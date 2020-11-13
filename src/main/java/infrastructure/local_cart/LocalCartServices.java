@@ -15,8 +15,8 @@ public class LocalCartServices implements CartServices {
     }
 
     @Override
-    public double getCartTotalAmount() {
-        ArrayList<Cart_item> shoppingCart = cart.getListOfCartItems();
+    public double getCartTotalAmount(ArrayList<Cart_item> shoppingCart) {
+//        ArrayList<Cart_item> shoppingCart = cart.getListOfCartItems();
         double cartTotal = 0;
         for(Cart_item currentElement: shoppingCart){
             cartTotal = cartTotal + currentElement.getSubTotal();

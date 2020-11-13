@@ -66,8 +66,10 @@ public class SubmitOrder extends BaseServlet {
         LocalDateTime localDateTime = LocalDateTime.now();
         DateTimeFormatter format = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm");
         String order_time = localDateTime.format(format);
-        double order_total = api.getCartTotalAmount();
-        Cart cart = new Cart(api.getShoppingCart());
+        HttpSession session = req.getSession();
+        ArrayList<Cart_item> shoppingCart = (ArrayList<Cart_item>) session.getAttribute("shoppingCart");
+        double order_total = api.getCartTotalAmount(shoppingCart);
+        Cart cart = new Cart(shoppingCart);
 
         try {
             User user = api.getUserById(user_id);
@@ -92,11 +94,11 @@ public class SubmitOrder extends BaseServlet {
             }
 
             //Reset shopping cart
-            ArrayList<Cart_item> shoppingCart = new ArrayList<>();
-            api.resetCart(shoppingCart);
-            shoppingCart = api.getShoppingCart();
+            shoppingCart = new ArrayList<>();
+//            api.resetCart(shoppingCart);
+//            shoppingCart = api.getShoppingCart();
 
-            HttpSession session = req.getSession();
+//            HttpSession session = req.getSession();
             session.setAttribute("order", order);
             session.setAttribute("shoppingCart", shoppingCart);
             session.setAttribute("user", user);
