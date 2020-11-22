@@ -1,3 +1,3 @@
-DROP USER IF EXISTS cupcaketest@localhost;
-CREATE USER cupcaketest@localhost;
-GRANT ALL PRIVILEGES ON cupcaketest.* TO cupcaketest@localhost;
+DROP USER IF EXISTS fogtest@localhost;
+CREATE USER fogtest@localhost;
+GRANT ALL PRIVILEGES ON fogtest.* TO fogtest@localhost;

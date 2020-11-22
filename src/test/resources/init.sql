@@ -1,7 +1,7 @@
-DROP DATABASE IF EXISTS cupcaketest;
-CREATE DATABASE cupcaketest;
+DROP DATABASE IF EXISTS fogtest;
+CREATE DATABASE fogtest;
 
-USE cupcaketest;
+USE fogtest;
 
 CREATE TABLE properties
 (

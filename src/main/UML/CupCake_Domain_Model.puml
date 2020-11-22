@@ -1,5 +1,5 @@
 @startuml
-Title Domian Model
+Title Domain Model
 
 hide circle
 hide methods
